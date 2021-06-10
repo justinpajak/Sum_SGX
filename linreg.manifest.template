@@ -1,0 +1,38 @@
+loader.preload = "file:{{ graphene.libos }}"
+loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/lib:/usr/{{ arch_libdir }}:/usr/local/lib" #JST added .so directory to force inclusion of PALISADE libraries - this may be a dirty hack
+loader.env.PATH = "/bin:/usr/bin"
+loader.log_level = "{{ log_level }}"
+libos.entrypoint = "file:./aggsum"
+
+# Read application arguments directly from the command line. Don't use this on production!
+loader.insecure__use_cmdline_argv = 1
+
+fs.mount.lib1.type = "chroot"
+fs.mount.lib1.path = "/lib"
+fs.mount.lib1.uri = "file:{{ graphene.runtimedir() }}"
+
+fs.mount.lib2.type = "chroot"
+fs.mount.lib2.path = "{{ arch_libdir }}"
+fs.mount.lib2.uri = "file:{{ arch_libdir }}"
+
+fs.mount.usr.type = "chroot"
+fs.mount.usr.path = "/usr"
+fs.mount.usr.uri = "file:/usr"
+
+fs.mount.tmp.type = "chroot"
+fs.mount.tmp.path = "/tmp"
+fs.mount.tmp.uri = "file:/tmp"
+
+sgx.trusted_files.aggsum = "file:./aggsum"
+sgx.allowed_files.data = "file:./data.txt"
+
+
+sgx.enclave_size = "1G"
+sgx.nonpie_binary = 1
+
+sgx.trusted_files.runtime = "file:{{ graphene.runtimedir() }}"
+sgx.trusted_files.arch_libdir = "file:{{ arch_libdir }}/"
+sgx.trusted_files.usr_arch_libdir = "file:/usr/{{ arch_libdir }}/"
+sgx.trusted_files.hostdebug = "file:/usr/lib/debug/usr/{{ arch_libdir }}"
+
+

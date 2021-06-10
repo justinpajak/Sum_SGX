@@ -1,0 +1,55 @@
+THIS_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+
+#Remember to run make SGX=1 sgx-tokens in Graphene root
+#Have to run make for the manifest, SGX manifest, and token
+
+# Relative path to Graphene root
+#May have to replace this
+GRAPHENEDIR ?= $(HOME)/graphene
+SGX_SIGNER_KEY ?= $(GRAPHENEDIR)/Pal/src/host/Linux-SGX/signer/enclave-key.pem
+
+ifeq ($(DEBUG),1)
+GRAPHENE_LOG_LEVEL = debug
+else
+GRAPHENE_LOG_LEVEL = error
+endif
+
+include $(GRAPHENEDIR)/Scripts/Makefile.configs
+
+.PHONY: all
+all: aggsum.manifest | pal_loader
+ifeq ($(SGX),1)
+all: aggsum.manifest.sgx aggsum.sig aggsum.token
+endif
+
+%.manifest: %.manifest.template
+	graphene-manifest \
+		-Dlog_level=$(GRAPHENE_LOG_LEVEL) \
+		-Darch_libdir=$(ARCH_LIBDIR) \
+		$< >$@
+
+# Make on Ubuntu <= 20.04 doesn't support "Rules with Grouped Targets" (`&:`),
+# we need to hack around.
+aggsum.sig aggsum.manifest.sgx: sgx_outputs
+	@:
+
+.INTERMEDIATE: sgx_outputs
+sgx_outputs: aggsum.manifest
+	$(GRAPHENEDIR)/Pal/src/host/Linux-SGX/signer/pal-sgx-sign \
+		-libpal $(GRAPHENEDIR)/Runtime/libpal-Linux-SGX.so \
+		-key $(SGX_SIGNER_KEY) \
+		-manifest aggsum.manifest \
+		-output aggsum.manifest.sgx
+
+%.token: %.sig
+	$(GRAPHENEDIR)/Pal/src/host/Linux-SGX/signer/pal-sgx-get-token -output $@ -sig $<
+
+pal_loader:
+	ln -s $(GRAPHENEDIR)/Runtime/pal_loader $@
+
+
+
+.PHONY: clean
+clean:
+	$(RM) *.manifest *.manifest.sgx *.sig *.token pal_loader
+
