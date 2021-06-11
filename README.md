@@ -2,13 +2,15 @@
 This program performs an aggregated sum of n floats for n users inside SGX enclave using Graphene
 
 1. Generate a random float for n users.
-   ./gen.py -n 10000000
+   
+   	- ./gen.py -n 10000000
 	
 	- This stores the floats in data.txt for 10000000 users
 
 2. Encrypt the floats in data.txt using AES-CBC with NI and store encrypted data in enc.txt
-	g++ aes.cpp -o aes -lcrypto
-	./aes
+	
+	- g++ aes.cpp -o aes -lcrypto
+	- ./aes
 
 	- Can uncomment code to test that it works
 	- Decrypts data in enc.txt and stores it in dec.txt
