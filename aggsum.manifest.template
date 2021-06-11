@@ -24,7 +24,7 @@ fs.mount.tmp.path = "/tmp"
 fs.mount.tmp.uri = "file:/tmp"
 
 sgx.trusted_files.aggsum = "file:./aggsum"
-sgx.allowed_files.data = "file:./d_enc.txt"
+sgx.allowed_files.data = "file:./enc.txt"
 
 
 sgx.enclave_size = "1G"
