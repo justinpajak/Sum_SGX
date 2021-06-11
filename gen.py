@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, random
+import sys, random, os
 
 def main():
 	
@@ -18,9 +18,12 @@ def main():
 	# Write data to file 
 	f = open("data.txt", "w")
 	for _ in range(n):
-		f.write("{0:.11f}".format(random.uniform(1000, 9999)))
+		f.write("{0:.13f}".format(random.uniform(10, 99)))
 		f.write("\n")
 	f.close()
+
+	# Run encryption program
+	os.popen("./aes");
 
 if __name__ == '__main__':
 	main()
