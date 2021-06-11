@@ -18,7 +18,7 @@ void readAndDecrypt(vector<float>& nums);
 
 int main(int argc, char *argv[]) {
 	
-	int n = 3000000;
+	int n = 1000000;
 	auto start = std::chrono::high_resolution_clock::now();
 	vector<float> nums(n);
 	
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 	/* Compute time */
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-	std::cout << "n = " << n << ". Time: " << duration.count() / float(1000000) << "secs." << std::endl;
+	std::cout << "n = " << n << ". Time: " << duration.count() / float(1000000) << " secs." << std::endl;
 	return 0;
 }
 
