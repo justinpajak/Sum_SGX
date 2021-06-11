@@ -18,7 +18,7 @@ def main():
 	# Write data to file 
 	f = open("data.txt", "w")
 	for _ in range(n):
-		f.write("{0:.6f}".format(random.uniform(0, 10)))
+		f.write("{0:.11f}".format(random.uniform(1000, 9999)))
 		f.write("\n")
 	f.close()
 
