@@ -3,14 +3,14 @@ This program performs an aggregated sum of n floats for n users inside SGX encla
 
 1. Generate a random float for n users.
    
-   	- ./gen.py -n 10000000
+   	1. ./gen.py -n 10000000
 	
 	- This stores the floats in data.txt for 10000000 users
 
 2. Encrypt the floats in data.txt using AES-CBC with NI and store encrypted data in enc.txt
 	
-	- g++ aes.cpp -o aes -lcrypto
-	- ./aes
+	1. g++ aes.cpp -o aes -lcrypto
+	2. ./aes
 
 	- Can uncomment code to test that it works
 	- Decrypts data in enc.txt and stores it in dec.txt
