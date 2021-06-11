@@ -14,17 +14,32 @@ double agg_sum(vector<float> nums);
 int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key,
             unsigned char *iv, unsigned char *plaintext);
 
+void readAndDecrypt(vector<float>& nums);
+
 int main(int argc, char *argv[]) {
 	
-	int n = 1000000;
+	int n = 3000000;
 	auto start = std::chrono::high_resolution_clock::now();
 	vector<float> nums(n);
 	
 	/* Read in data from d_enc.txt, decrypt and put in nums vector */
+	readAndDecrypt(nums);
+
+	/* Compute sum */
+	std::cout << std::fixed << "Sum: " << agg_sum(nums) << std::endl;
+
+	/* Compute time */
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+	std::cout << "n = " << n << ". Time: " << duration.count() / float(1000000) << "secs." << std::endl;
+	return 0;
+}
+
+void readAndDecrypt(vector<float>& nums) {
 	FILE *enc_data = fopen("enc.txt", "r");
 	if (!enc_data) {
 		fprintf(stderr, "Unable to open file: %s\n", strerror(errno));
-		return 1;
+		return;
 	}
 	unsigned char ciphertext[128];
 	unsigned char *key = (unsigned char *)"01234567890123456789012345678901";
@@ -36,14 +51,6 @@ int main(int argc, char *argv[]) {
 		nums.push_back(atof((const char*)plaintext));
 	}
 
-	/* Compute sum */
-	std::cout << agg_sum(nums) << std::endl;
-
-	/* Compute time */
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-	std::cout << "n = " << n << ". Time: " << duration.count() / float(1000000) << "secs." << std::endl;
-	return 0;
 }
 
 int decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key,
