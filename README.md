@@ -18,11 +18,11 @@ This program performs an aggregated sum of n floats for n users inside SGX encla
 
 3. Run SGX Aggregated Sum Program 
 
-	1. g++ aggreg.cpp -o aggreg -lcrypto
+	1. g++ aggsum.cpp -o aggsum -lcrypto
 
-	2. make SGX=1 -f mk_graphene aggreg.manifest.sgx aggreg.token pal_loader
+	2. make SGX=1 -f mk_graphene aggsum.manifest.sgx aggsum.token pal_loader
 
-	3. SGX=1 ./pal_loader ./aggreg
+	3. SGX=1 ./pal_loader ./aggsum
 	
 	- This program reads in encrypted data from enc.txt, decrypts each ciphertext
 	  and then perform the aggregated sum over all of the n floats from n users.
