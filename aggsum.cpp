@@ -6,6 +6,8 @@
 #include <openssl/conf.h>
 #include <openssl/err.h>
 #include <openssl/evp.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 using std::vector;
 
@@ -36,7 +38,7 @@ int main(int argc, char *argv[]) {
 }
 
 void readAndDecrypt(vector<float>& nums) {
-	FILE *enc_data = fopen("enc.txt", "r");
+	int enc_data = open("enc.txt", O_RDONLY);
 	if (!enc_data) {
 		fprintf(stderr, "Unable to open file: %s\n", strerror(errno));
 		return;
@@ -44,7 +46,7 @@ void readAndDecrypt(vector<float>& nums) {
 	unsigned char ciphertext[128];
 	unsigned char *key = (unsigned char *)"01234567890123456789012345678901";
     unsigned char *iv = (unsigned char *)"0123456789012345";
-	while(fread((char*)ciphertext, 128, 1, enc_data)) {
+	while(read(enc_data, (char*)ciphertext, 128)) {
 		unsigned char plaintext[128];
 		int plaintext_len = decrypt(ciphertext, 32, key, iv, plaintext);
 		plaintext[plaintext_len] = '\0';
