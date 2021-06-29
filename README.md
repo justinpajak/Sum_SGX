@@ -1,5 +1,5 @@
 # Sum_SGX
-This program performs an aggregated sum of n floats for n users inside SGX enclave using Graphene
+Implemenation of an aggregated sum of n floats for n users inside SGX enclave using Graphene
 
 Dependencies:
 - Intel SGX: https://github.com/intel/linux-sgx
