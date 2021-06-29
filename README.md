@@ -23,11 +23,11 @@ Dependencies:
 <hr/>
 3. Run SGX Aggregated Sum Program 
 
-	1. make aggsum
+	1. ~/Sum_SGX$ make aggsum
 
-	2. make SGX=1 -f mk_graphene aggsum.manifest.sgx aggsum.token pal_loader
+	2. ~/Sum_SGX$ make SGX=1 -f mk_graphene aggsum.manifest.sgx aggsum.token pal_loader
 
-	3. SGX=1 ./pal_loader ./aggsum
+	3. ~/Sum_SGX$ SGX=1 ./pal_loader ./aggsum
 	
 	- This program reads in encrypted data from enc.txt, decrypts each ciphertext
 	  and then perform the aggregated sum over all of the n floats from n users.
@@ -37,6 +37,6 @@ Dependencies:
 <hr/>
 4. Clean
 
-	1. make clean
-	2. make -f mk_graphene clean
-	3. ./scripts/cleaner.sh
+	1. ~/Sum_SGX$ make clean
+	2. ~/Sum_SGX$ make -f mk_graphene clean
+	3. ~/Sum_SGX$ ./scripts/cleaner.sh
