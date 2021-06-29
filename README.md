@@ -33,3 +33,9 @@ Dependencies:
 	  and then perform the aggregated sum over all of the n floats from n users.
 
 	- The total time taken to read in data, decrypt, and calculate sum is outputted to stdout.
+
+<hr/>
+4. Clean
+
+	1. make clean
+	2. make -f mk_graphene clean
