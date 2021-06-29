@@ -1,5 +1,5 @@
 #!/bin/bash
 
-> ../data.txt
-> ../enc.txt
-> ../dec.txt
+> data.txt
+> enc.txt
+> dec.txt

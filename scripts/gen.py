@@ -16,7 +16,7 @@ def main():
 			sys.exit(1)
 
 	# Write data to file 
-	f = open("../data.txt", "w")
+	f = open("data.txt", "w")
 	for _ in range(n):
 		f.write("{0:.13f}".format(random.uniform(10, 99)))
 		f.write("\n")
