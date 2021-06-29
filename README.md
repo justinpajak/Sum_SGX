@@ -1,6 +1,12 @@
 # Sum_SGX
 This program performs an aggregated sum of n floats for n users inside SGX enclave using Graphene
 
+Dependencies:
+- Intel SGX: https://github.com/intel/linux-sgx
+- Graphene: https://graphene.readthedocs.io/en/latest/quickstart.html#quick-start-with-sgx-support
+- OpenSSL: https://www.openssl.org/
+
+<hr/>
 1. Compile program to encrypt the floats in data.txt using AES-CBC with NI and store encrypted data in enc.txt
 
 	1. ~/Sum_SGX$ make aes
@@ -9,10 +15,12 @@ This program performs an aggregated sum of n floats for n users inside SGX encla
 	- Decryption code will decrypt data in enc.txt and store it in dec.txt
 	- Contents of dec.txt and data.txt should be the same
 
+<hr/>
 2. Generate a random float for n users and encrypt data to enc.txt file
 
 	1. ~/Sum_SGX$ ./scripts/gen.py -n 200000
 
+<hr/>
 3. Run SGX Aggregated Sum Program 
 
 	1. make aggsum
