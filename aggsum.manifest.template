@@ -29,7 +29,8 @@ sgx.allowed_files.data = "file:./enc.txt"
 
 sgx.enclave_size = "1G"
 sgx.nonpie_binary = 1
-sgx.rpc_thread_number=0
+sgx.thread_num = 21
+
 
 sgx.trusted_files.runtime = "file:{{ graphene.runtimedir() }}"
 sgx.trusted_files.arch_libdir = "file:{{ arch_libdir }}/"
