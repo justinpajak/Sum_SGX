@@ -23,7 +23,7 @@ def main():
 	f.close()
 
 	# Run encryption program
-	os.popen("./aes");
+	# os.popen("./aes")
 
 if __name__ == '__main__':
 	main()
