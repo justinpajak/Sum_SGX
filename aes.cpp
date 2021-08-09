@@ -23,15 +23,47 @@ int main(int argc, char *argv[]) {
     unsigned char ciphertext[128];
     int ciphertext_len, decryptedtext_len;
 
+	char *filename = NULL;
+	int num = -1;
+
+	/* Parse Command Line Arguments */
+	for (int i = 1; i < argc; i++) {
+		if (argv[i][0] == '-') {
+			switch (argv[i][1]) {
+				case 'f':
+					filename = argv[++i];
+					break;
+				case 'n':
+					num = atoi(argv[++i]);
+					break;
+				default:
+					return EXIT_FAILURE;
+			}
+		} else {
+			return EXIT_FAILURE;
+		}
+	}
+	
+	if (num == -1 || !filename) {
+		return EXIT_FAILURE;
+	}
+
     /* Loop through data.txt file and encrypt each float */
-    FILE* data = fopen("data.txt", "r+");
+    FILE* data = fopen((const char*)filename, "r+");
     if (!data) {
-        fprintf(stderr, "Unable to open file: %s\n", strerror(errno));
+        fprintf(stderr, "Unable to open file data: %s\n", strerror(errno));
         return 1;
     }
-    FILE* enc_data = fopen("enc.txt", "w+");
+
+	std::string e_string = "enc";
+	e_string += std::to_string(num);
+	e_string += ".txt";
+	const char *e_cstring = e_string.c_str();
+	std::cout << e_cstring << std::endl;
+
+    FILE* enc_data = fopen(e_cstring, "w+");
     if (!enc_data) {
-        fprintf(stderr, "Unable to open file: %s\n", strerror(errno));
+        fprintf(stderr, "Unable to open file enc: %s\n", strerror(errno));
         return 1;
     }
     char buffer[BUFSIZ];

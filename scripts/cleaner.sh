@@ -1,5 +1,4 @@
 #!/bin/bash
 
-> data.txt
-> enc.txt
-> dec.txt
+rm data*.txt
+rm enc*.txt
