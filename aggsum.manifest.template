@@ -24,16 +24,17 @@ fs.mount.tmp.path = "/tmp"
 fs.mount.tmp.uri = "file:/tmp"
 
 sgx.trusted_files.aggsum = "file:./aggsum"
-sgx.allowed_files.data = "file:./enc.txt"
 
+#a
+sgx.allowed_files.enc0 = "file:./enc0.txt"
+sgx.allowed_files.enc1 = "file:./enc1.txt"
+#a
 
 sgx.enclave_size = "1G"
 sgx.nonpie_binary = 1
-sgx.rpc_thread_number=0
+sgx.thread_num=20
 
 sgx.trusted_files.runtime = "file:{{ graphene.runtimedir() }}"
 sgx.trusted_files.arch_libdir = "file:{{ arch_libdir }}/"
 sgx.trusted_files.usr_arch_libdir = "file:/usr/{{ arch_libdir }}/"
 sgx.trusted_files.hostdebug = "file:/usr/lib/debug/usr/{{ arch_libdir }}"
-
-

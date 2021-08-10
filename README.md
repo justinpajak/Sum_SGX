@@ -1,5 +1,5 @@
 # Sum_SGX
-Implemenation of an aggregated sum of n floats for n users inside SGX enclave using Graphene
+Implemenation of an aggregated sum of n floats for n users inside SGX enclave using Graphene.  Multithreaded Version
 
 Dependencies:
 - Intel SGX: https://github.com/intel/linux-sgx
@@ -7,7 +7,7 @@ Dependencies:
 - OpenSSL: https://www.openssl.org/
 
 <hr/>
-1. Compile program to encrypt the floats in data.txt using AES-CBC with NI and store encrypted data in enc.txt
+1. Compile program to encrypt the floats in data.txt using AES-CBC with NI and store encrypted data
 
 	1. ~/Sum_SGX$ make aes
 
@@ -16,21 +16,22 @@ Dependencies:
 	- Contents of dec.txt and data.txt should be the same
 
 <hr/>
-2. Generate a random float for n users and encrypt data to enc.txt file
+2. Generate a random float for n users aand encrypt data in t different files, where t is the number of threads.
 
-	1. ~/Sum_SGX$ ./scripts/gen.py -n 200000
+	1. ~/Sum_SGX$ ./scripts/gen.py -n 1000000 -t 2
 
 <hr/>
-3. Run SGX Aggregated Sum Program 
+3. Run SGX Aggregated Sum Program - Multithreaded
 
 	1. ~/Sum_SGX$ make aggsum
 
 	2. ~/Sum_SGX$ make SGX=1 -f mk_graphene aggsum.manifest.sgx aggsum.token pal_loader
 
-	3. ~/Sum_SGX$ SGX=1 ./pal_loader ./aggsum
+	3. ~/Sum_SGX$ SGX=1 ./pal_loader ./aggsum -n 1000000 -t 2
 	
-	- This program reads in encrypted data from enc.txt, decrypts each ciphertext
-	  and then perform the aggregated sum over all of the n floats from n users.
+	- This program reads in encrypted data from enc0.txt, enc1.txt, ... (depends on # of threads specified).
+
+	- Then performs the aggregated sum over all of the n floats from n users.
 
 	- The total time taken to read in data, decrypt, and calculate sum is outputted to stdout.
 

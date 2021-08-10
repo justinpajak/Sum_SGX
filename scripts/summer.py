@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
+import os
 
-f = open("data.txt", "r")
+directory = os.listdir(".")
+sum_tot = 0
+for d in directory:
+	if "data" in d:
+		sum_d = 0
+		f = open(d, "r");
+		for line in f:
+			sum_d += float(line)
+		sum_tot += sum_d
+		f.close()
 
-sum = 0
-for line in f:
-	sum += float(line)
-
-f.close()
-print(sum)
+print(sum_tot)

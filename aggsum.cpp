@@ -22,7 +22,6 @@ void readAndDecrypt();
 size_t NTHREADS = 1;
 size_t n = 1000000;
 vector<float> nums;
-int enc_data;
 
 // Lock
 pthread_mutex_t lock;
@@ -52,7 +51,6 @@ int main(int argc, char *argv[]) {
 	auto start_tot = std::chrono::high_resolution_clock::now();
 	
 	/* Read in data from d_enc.txt, decrypt and put in nums vector */
-	enc_data = open("enc.txt", O_RDONLY);
 	readAndDecrypt();
 
 	/* Compute sum */
@@ -100,35 +98,38 @@ typedef struct {
 	size_t stop;
 } SumArgs;
 
-void *thread_read(void * args) {
-	SumArgs *a = (SumArgs*)args;
+typedef struct {
+	size_t num;
+} ReadArgs;
 
+void *thread_read(void * args) {
 	unsigned char ciphertext[128];
 	unsigned char *key = (unsigned char *)"01234567890123456789012345678901";
     unsigned char *iv = (unsigned char *)"0123456789012345";
-	pthread_mutex_lock(&lock);
-	lseek(enc_data, a->start * 128, SEEK_SET);
-	while(read(enc_data, (char*)ciphertext, 128) && a->start <= a->stop) {
+
+	ReadArgs *r = (ReadArgs*)args;
+	std::string e_string = "enc";
+	e_string += std::to_string(r->num);
+	e_string += ".txt";
+	const char *e_cstring = e_string.c_str();
+	int enc_data = open(e_cstring, O_RDONLY);
+	while(read(enc_data, (char*)ciphertext, 128)) {
 		unsigned char plaintext[128];
 		int plaintext_len = decrypt(ciphertext, 32, key, iv, plaintext);
 		plaintext[plaintext_len] = '\0';
+		pthread_mutex_lock(&lock);
 		nums.push_back(atof((const char*)plaintext));
-		a->start++;
+		pthread_mutex_unlock(&lock);
 	}
-	pthread_mutex_unlock(&lock);
 	return NULL;
 }
 
 void readAndDecrypt() {
 	pthread_t threads[NTHREADS];
-	SumArgs args[NTHREADS];
+	ReadArgs args[NTHREADS];
 	
-	int e = n / NTHREADS;
-	int last = e + n % NTHREADS;
-
 	for (size_t i = 0; i < NTHREADS; i++) {
-		args[i].start = i * e;
-		args[i].stop = (i * e) + last - 1;
+		args[i].num = i;
 		pthread_create(&threads[i], NULL, thread_read, (void*)&args[i]);
 	}
 

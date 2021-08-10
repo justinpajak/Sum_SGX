@@ -18,9 +18,6 @@ def main():
 		else:
 			sys.exit(1)
 
-	print(n)
-	print(t)
-
 	# Segment data into different files for multithreading
 	e = n // t
 	last = e + n % t
@@ -34,6 +31,18 @@ def main():
 		# Run encryption program
 		command = f"./aes -f data{i}.txt -n {i}"
 		os.system(command)
-	
+
+	# Update aggsum.manifest.template
+	m_file = open("aggsum.manifest.template", "r")
+	lines = m_file.readlines()
+	m_file.close()
+
+	bounds = []
+	start = False
+	for i, line in enumerate(lines):
+		if line == "#a\n":
+			bounds.append(i + 1)
+
+
 if __name__ == '__main__':
 	main()
