@@ -44,8 +44,6 @@ int main(int argc, char *argv[]) {
 			return EXIT_FAILURE;
 		}
 	}
-	fprintf(stdout, "n: %lu\n", n);
-	fprintf(stdout, "t: %lu\n", NTHREADS);
 	pthread_mutex_init(&lock, NULL);
 
 	auto start_tot = std::chrono::high_resolution_clock::now();
@@ -54,17 +52,18 @@ int main(int argc, char *argv[]) {
 	readAndDecrypt();
 
 	/* Compute sum */
+	auto start_sum = std::chrono::high_resolution_clock::now();
 	double sum = agg_sum();
-	std::cout << std::fixed << "Sum: " << sum << std::endl;
-
-	/*for (size_t i = 0; i < nums.size(); i++) {
-		std::cout << nums[i] << std::endl;
-	}*/
+	auto stop_sum = std::chrono::high_resolution_clock::now();
+	auto duration_sum = std::chrono::duration_cast<std::chrono::microseconds>(stop_sum - start_sum);
+	// print resulting sum
+	//std::cout << std::fixed << "Sum: " << sum << std::endl;
+	std::cout << "agg_sum: " << duration_sum.count() << std::endl;
 
 	/* Compute time */
 	auto stop_tot = std::chrono::high_resolution_clock::now();
 	auto duration_tot = std::chrono::duration_cast<std::chrono::microseconds>(stop_tot - start_tot);
-	std::cout << "time: " << duration_tot.count() << std::endl;
+	std::cout << "Total: " << duration_tot.count() << std::endl;
 	return 0;
 }
 

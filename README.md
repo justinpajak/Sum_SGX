@@ -1,5 +1,5 @@
 # Sum_SGX
-Implemenation of an aggregated sum of n floats for n users inside SGX enclave using Graphene.  Multithreaded Version
+Implemenation of an aggregated sum of n floats for n users inside SGX enclave using Graphene - Fully Multithreaded Version
 
 Dependencies:
 - Intel SGX: https://github.com/intel/linux-sgx
@@ -16,9 +16,11 @@ Dependencies:
 	- Contents of dec.txt and data.txt should be the same
 
 <hr/>
-2. Generate a random float for n users aand encrypt data in t different files, where t is the number of threads.
+2. Generate a random float for n users, segment data, encrypt data in t different files, where t is the number of threads.
 
 	1. ~/Sum_SGX$ ./scripts/gen.py -n 1000000 -t 2
+
+	- Script also updates aggsum.manifest.template for t encrypted files
 
 <hr/>
 3. Run SGX Aggregated Sum Program - Multithreaded

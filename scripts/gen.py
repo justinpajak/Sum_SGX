@@ -38,11 +38,26 @@ def main():
 	m_file.close()
 
 	bounds = []
-	start = False
 	for i, line in enumerate(lines):
 		if line == "#a\n":
 			bounds.append(i + 1)
-
+	
+	n_file = open("aggsum.manifest.template", "w")
+	start = False
+	for i, line in enumerate(lines):
+		if not line == "#a\n" and not start:
+			n_file.write(line)
+			continue
+		if line == "#a\n" and not start:
+			start = True
+			n_file.write(line)
+			continue
+		if line == "#a\n" and start:
+			start = False
+			for j in range(t):
+				n_file.write(f"sgx.allowed_files.enc{j} = \"file:./enc{j}.txt\"\n")
+			n_file.write("#a\n");
+			continue
 
 if __name__ == '__main__':
 	main()
