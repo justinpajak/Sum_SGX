@@ -58,12 +58,16 @@ int main(int argc, char *argv[]) {
 	auto duration_sum = std::chrono::duration_cast<std::chrono::microseconds>(stop_sum - start_sum);
 	// print resulting sum
 	//std::cout << std::fixed << "Sum: " << sum << std::endl;
-	std::cout << "agg_sum: " << duration_sum.count() << std::endl;
+	FILE *agg_file = fopen("aggsum_time.txt", "a");
+	fprintf(agg_file, "%lu\n", duration_sum.count());
+	fclose(agg_file);
 
 	/* Compute time */
 	auto stop_tot = std::chrono::high_resolution_clock::now();
 	auto duration_tot = std::chrono::duration_cast<std::chrono::microseconds>(stop_tot - start_tot);
-	std::cout << "Total: " << duration_tot.count() << std::endl;
+	FILE *tot_file = fopen("tot_time.txt", "a");
+	fprintf(tot_file, "%lu\n", duration_tot.count());
+	fclose(tot_file);
 	return 0;
 }
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in {1..20}
+for i in {1..10}
 do
-	SGX=1 ./pal_loader ./aggsum 2> /dev/null | tail -1 | cut -d : -f 2 | grep [0-9] | cut -d ' ' -f 2
+	SGX=1 ./pal_loader ./aggsum -n 9000000 -t 8
 done

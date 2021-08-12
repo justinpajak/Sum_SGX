@@ -6,6 +6,7 @@ libos.entrypoint = "file:./aggsum"
 
 # Read application arguments directly from the command line. Don't use this on production!
 loader.insecure__use_cmdline_argv = 1
+loader.pal_internal_mem_size = "64MB"
 
 fs.mount.lib1.type = "chroot"
 fs.mount.lib1.path = "/lib"
@@ -28,11 +29,19 @@ sgx.trusted_files.aggsum = "file:./aggsum"
 #a
 sgx.allowed_files.enc0 = "file:./enc0.txt"
 sgx.allowed_files.enc1 = "file:./enc1.txt"
+sgx.allowed_files.enc2 = "file:./enc2.txt"
+sgx.allowed_files.enc3 = "file:./enc3.txt"
+sgx.allowed_files.enc4 = "file:./enc4.txt"
+sgx.allowed_files.enc5 = "file:./enc5.txt"
+sgx.allowed_files.enc6 = "file:./enc6.txt"
+sgx.allowed_files.enc7 = "file:./enc7.txt"
 #a
+sgx.allowed_files.aggsum_time = "file:./aggsum_time.txt"
+sgx.allowed_files.total_time = "file:./tot_time.txt"
 
-sgx.enclave_size = "1G"
+sgx.enclave_size = "2G"
 sgx.nonpie_binary = 1
-sgx.thread_num=20
+sgx.thread_num=21
 
 sgx.trusted_files.runtime = "file:{{ graphene.runtimedir() }}"
 sgx.trusted_files.arch_libdir = "file:{{ arch_libdir }}/"
